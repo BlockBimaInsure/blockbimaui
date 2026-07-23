@@ -1,0 +1,2 @@
+{"type":"server-started","port":51630,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:51630","screen_dir":"/mnt/c/opencode/BlockBimaUI/.superpowers/brainstorm/70605-1784708643/content","state_dir":"/mnt/c/opencode/BlockBimaUI/.superpowers/brainstorm/70605-1784708643/state"}
+{"type":"server-stopped","reason":"idle timeout"}

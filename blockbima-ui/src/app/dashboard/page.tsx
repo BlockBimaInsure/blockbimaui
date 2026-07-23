@@ -25,6 +25,8 @@ export default async function DashboardPage() {
     .filter((c) => c.status === "CONTRACT_STATUS_SETTLED")
     .sort((a, b) => new Date(b.settledAt ?? 0).getTime() - new Date(a.settledAt ?? 0).getTime());
 
+  const { data: beneficiaries } = await api.listBeneficiaries(user.org_id);
+
   if (user.role === "lender") {
     return (
       <LenderDashboard
@@ -33,6 +35,8 @@ export default async function DashboardPage() {
         premiumsCollected={premiumsCollected}
         premiumsOwed={premiumsOwed}
         recentContracts={recentContracts}
+        contracts={contracts}
+        beneficiaries={beneficiaries}
       />
     );
   }
@@ -43,6 +47,7 @@ export default async function DashboardPage() {
       totalCommissions={premiumsOwed - premiumsCollected}
       totalSettled={premiumsCollected}
       recentSettlements={recentSettlements}
+      contracts={contracts}
     />
   );
 }

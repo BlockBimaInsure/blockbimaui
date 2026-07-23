@@ -41,7 +41,7 @@ export function TrendArea({ data, xKey, yKey, color = "oklch(0.60 0.17 170)", ti
               borderRadius: "var(--radius)",
               fontSize: "12px",
             }}
-            formatter={formatValue ? [(v: number) => formatValue(v)] : undefined}
+            formatter={formatValue ? (value: unknown) => [formatValue(Number(value))] : undefined}
           />
           <Area type="monotone" dataKey={yKey} stroke={color} fillOpacity={1} fill="url(#colorY)" />
         </AreaChart>

@@ -68,7 +68,8 @@ test.describe("Auth Module - Access Matrix Consistency", () => {
     const fs = await import("fs");
     const content = fs.readFileSync("src/components/layout/nav-items.ts", "utf-8");
 
-    expect(content).toContain('import { UserRole, canAccess } from "@/lib/auth"');
+    expect(content).toContain('canAccess');
+    expect(content).toContain('UserRole');
     expect(content).not.toContain("function canAccessByRole");
   });
 

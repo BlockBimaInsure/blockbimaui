@@ -13,12 +13,12 @@ test.describe("Page - Access Denied (Static Analysis)", () => {
 });
 
 test.describe("Page - Layout Structure (Static Analysis)", () => {
-  test("layout has BlockBima brand", async () => {
+  test("layout has top-nav with user menu", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("src/components/layout/top-nav.tsx", "utf-8");
 
-    expect(content).toContain("BlockBima");
-    expect(content).toContain('href="/dashboard"');
+    expect(content).toContain("useUser");
+    expect(content).toContain('href="/auth/logout"');
   });
 
   test("layout has proper HTML structure", async () => {

@@ -1,12 +1,13 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Component - TopNav Brand (Static)", () => {
-  test("BlockBima brand exists and links to dashboard", async () => {
+test.describe("Component - TopNav (Static)", () => {
+  test("top-nav has user menu with logout link", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("src/components/layout/top-nav.tsx", "utf-8");
 
-    expect(content).toContain("BlockBima");
-    expect(content).toContain('href="/dashboard"');
+    expect(content).toContain("useUser");
+    expect(content).toContain('href="/auth/logout"');
+    expect(content).toContain("DropdownMenu");
   });
 });
 
