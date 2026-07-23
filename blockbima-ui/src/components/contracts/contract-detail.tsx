@@ -5,14 +5,17 @@ import { Contract } from "@/lib/api-client";
 import { formatDate, statusLabel, statusVariant, formatCurrency } from "@/lib/utils";
 import { BlockchainLinks } from "./blockchain-links";
 import { BeneficiaryCluster } from "@/components/maps/beneficiary-cluster";
-import { Beneficiary } from "@/lib/api-client";
+import { Beneficiary, DailyRainfall } from "@/lib/api-client";
+import { RainfallSparkline } from "./rainfall-sparkline";
 
 interface ContractDetailProps {
   contract: Contract;
   beneficiaries?: Beneficiary[];
+  threshold?: number;
+  rainfallReadings?: DailyRainfall[];
 }
 
-export function ContractDetail({ contract, beneficiaries = [] }: ContractDetailProps) {
+export function ContractDetail({ contract, beneficiaries = [], threshold, rainfallReadings = [] }: ContractDetailProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
@@ -72,6 +75,14 @@ export function ContractDetail({ contract, beneficiaries = [] }: ContractDetailP
           </CardContent>
         </Card>
       </div>
+
+      {rainfallReadings.length > 0 && threshold !== undefined && (
+        <RainfallSparkline
+          readings={rainfallReadings}
+          threshold={threshold}
+          contractId={contract.id}
+        />
+      )}
 
       {contract.beneficiaries.length > 0 && (
         <Card>
