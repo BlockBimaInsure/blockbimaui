@@ -9,7 +9,10 @@ export default async function ContractDetailPage({ params }: { params: Promise<{
   const { id } = await params;
   try {
     const contract = await api.getContract(id);
-    return <ContractDetail contract={contract} />;
+    const beneficiaries = await Promise.all(
+      contract.beneficiaries.map((bId) => api.getBeneficiary(bId))
+    );
+    return <ContractDetail contract={contract} beneficiaries={beneficiaries} />;
   } catch {
     notFound();
   }

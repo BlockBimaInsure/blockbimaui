@@ -4,12 +4,15 @@ import { Badge } from "@/components/ui/badge";
 import { Contract } from "@/lib/api-client";
 import { formatDate, statusLabel, statusVariant, formatCurrency } from "@/lib/utils";
 import { BlockchainLinks } from "./blockchain-links";
+import { BeneficiaryCluster } from "@/components/maps/beneficiary-cluster";
+import { Beneficiary } from "@/lib/api-client";
 
 interface ContractDetailProps {
   contract: Contract;
+  beneficiaries?: Beneficiary[];
 }
 
-export function ContractDetail({ contract }: ContractDetailProps) {
+export function ContractDetail({ contract, beneficiaries = [] }: ContractDetailProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
@@ -87,6 +90,17 @@ export function ContractDetail({ contract }: ContractDetailProps) {
                 </Link>
               ))}
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {beneficiaries.length > 0 && (
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-sm">Beneficiary Locations</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <BeneficiaryCluster beneficiaries={beneficiaries} className="h-[350px]" />
           </CardContent>
         </Card>
       )}
