@@ -64,7 +64,7 @@ export function RainfallSparkline({ readings, threshold, contractId }: RainfallS
                   borderRadius: "var(--radius)",
                   fontSize: "12px",
                 }}
-                formatter={(value: number) => [`${value}mm`, "Rainfall"]}
+                formatter={(value) => [`${value}mm`, "Rainfall"]}
                 labelFormatter={(label) => `Date: ${label}`}
               />
               <ReferenceLine

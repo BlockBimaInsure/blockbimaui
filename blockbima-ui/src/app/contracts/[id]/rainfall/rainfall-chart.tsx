@@ -35,7 +35,7 @@ export function RainfallChart({ readings, threshold }: RainfallChartProps) {
               borderRadius: "var(--radius)",
               fontSize: "12px",
             }}
-            formatter={(value: number) => [`${value}mm`, "Rainfall"]}
+            formatter={(value) => [`${value}mm`, "Rainfall"]}
             labelFormatter={(label) => `Date: 2026-${label}`}
           />
           <ReferenceLine

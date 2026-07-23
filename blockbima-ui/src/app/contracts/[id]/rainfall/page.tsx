@@ -33,7 +33,7 @@ export default async function RainfallPage({ params }: { params: Promise<{ id: s
       ? readings.reduce((sum, r) => sum + r.amountMm, 0) / readings.length
       : 0;
 
-    const daysRemaining = contract.settled
+    const daysRemaining = contract.settledAt
       ? null
       : Math.max(0, Math.ceil((new Date(contract.maturityDate).getTime() - Date.now()) / 86400000));
 
