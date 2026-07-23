@@ -56,6 +56,11 @@ export interface Region {
   thresholds: { productId: string; thresholdValue: number }[];
 }
 
+export interface DailyRainfall {
+  date: string;
+  amountMm: number;
+}
+
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;
