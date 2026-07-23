@@ -6,6 +6,7 @@ const PROTECTED_ROUTES = [
   "/beneficiaries/some-id",
   "/contracts",
   "/contracts/some-id",
+  "/contracts/some-id/rainfall",
   "/products",
   "/regions",
   "/reconciliation",
