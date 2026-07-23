@@ -16,7 +16,7 @@ export function LenderReconciliation({ contracts, totalCollected, totalOwed }: L
 
   return (
     <div className="space-y-6">
-      <ReconciliationSummary totalCollected={totalCollected} totalOwed={totalOwed} outstanding={outstanding} />
+      <ReconciliationSummary totalCollected={totalCollected} totalOwed={totalOwed} outstanding={outstanding} contracts={contracts} />
       <div>
         <h2 className="text-lg font-semibold">Contracts</h2>
         <Table>

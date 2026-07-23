@@ -16,7 +16,7 @@ export function InsurerReconciliation({ contracts, totalExpected, totalReceived 
 
   return (
     <div className="space-y-6">
-      <ReconciliationSummary totalCollected={totalReceived} totalOwed={totalExpected} outstanding={commissions} />
+      <ReconciliationSummary totalCollected={totalReceived} totalOwed={totalExpected} outstanding={commissions} contracts={contracts} />
       <div>
         <h2 className="text-lg font-semibold">All Contracts</h2>
         <Table>
