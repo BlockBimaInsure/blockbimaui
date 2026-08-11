@@ -4,7 +4,7 @@ import { StatCard } from "./stat-card";
 import { StatusDonut } from "@/components/charts/status-donut";
 import { SettlementBar } from "@/components/charts/settlement-bar";
 import { Contract } from "@/lib/api-client";
-import { formatCurrency, truncateAddress, blockchainUrl, statusLabel, statusVariant, formatDate } from "@/lib/utils";
+import { formatCurrency, truncateAddress, blockchainUrl, formatDate } from "@/lib/utils";
 import { DollarSign, TrendingDown, CheckCircle2, AlertTriangle, ExternalLink } from "lucide-react";
 
 interface InsurerDashboardProps {

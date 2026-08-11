@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Contract } from "@/lib/api-client";
-import { formatDate, statusLabel, statusVariant, formatCurrency, truncateAddress, blockchainUrl } from "@/lib/utils";
+import { statusLabel, statusVariant, formatCurrency, truncateAddress, blockchainUrl } from "@/lib/utils";
 import { ReconciliationSummary } from "./reconciliation-summary";
 import { ExternalLink } from "lucide-react";
 

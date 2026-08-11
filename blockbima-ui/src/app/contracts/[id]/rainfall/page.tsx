@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { requireAuth, canAccess } from "@/lib/auth";
-import { api } from "@/lib/api-client";
+import { api, type Contract, type DailyRainfall } from "@/lib/api-client";
 import { getRainfallFeed } from "@/lib/rainfall-mock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
@@ -9,35 +9,27 @@ import { CloudRain, TrendingUp, Calculator, Calendar } from "lucide-react";
 import { RainfallChart } from "./rainfall-chart";
 import { RainfallTable } from "./rainfall-table";
 
+interface RainfallPageData {
+  contract: Contract;
+  threshold: number;
+  startDate: string;
+  endDate: string;
+  readings: DailyRainfall[];
+  daysAbove: number;
+  peak: DailyRainfall | null;
+  avg: number;
+  daysRemaining: number | null;
+}
+
 export default async function RainfallPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuth();
   if (!canAccess(user, "contracts")) redirect("/access-denied");
   const { id } = await params;
 
-  try {
-    const contract = await api.getContract(id);
-    const regionRes = await api.listRegions();
-    const region = regionRes.data.find((r) => r.id === contract.regionId);
-    const threshold = region?.thresholds.find((t) => t.productId === contract.productId)?.thresholdValue ?? 0;
+  const { contract, threshold, startDate, endDate, readings, daysAbove, peak, avg, daysRemaining } =
+    await loadRainfallData(id);
 
-    const startDate = contract.deployedAt ?? contract.createdAt;
-    const endDate = contract.settledAt ?? new Date().toISOString().split("T")[0];
-
-    const readings = await getRainfallFeed(contract.id, startDate, endDate);
-
-    const daysAbove = readings.filter((r) => r.amountMm >= threshold).length;
-    const peak = readings.length > 0
-      ? readings.reduce((max, r) => (r.amountMm > max.amountMm ? r : max), readings[0])
-      : null;
-    const avg = readings.length > 0
-      ? readings.reduce((sum, r) => sum + r.amountMm, 0) / readings.length
-      : 0;
-
-    const daysRemaining = contract.settledAt
-      ? null
-      : Math.max(0, Math.ceil((new Date(contract.maturityDate).getTime() - Date.now()) / 86400000));
-
-    return (
+  return (
       <div className="space-y-6">
         <div className="flex items-center gap-4">
           <Link
@@ -108,6 +100,33 @@ export default async function RainfallPage({ params }: { params: Promise<{ id: s
         </Card>
       </div>
     );
+}
+
+async function loadRainfallData(id: string): Promise<RainfallPageData> {
+  try {
+    const contract = await api.getContract(id);
+    const regionRes = await api.listRegions();
+    const region = regionRes.data.find((r) => r.id === contract.regionId);
+    const threshold = region?.thresholds.find((t) => t.productId === contract.productId)?.thresholdValue ?? 0;
+
+    const startDate = contract.deployedAt ?? contract.createdAt;
+    const endDate = contract.settledAt ?? new Date().toISOString().split("T")[0];
+
+    const readings = await getRainfallFeed(contract.id, startDate, endDate);
+
+    const daysAbove = readings.filter((r) => r.amountMm >= threshold).length;
+    const peak = readings.length > 0
+      ? readings.reduce((max, r) => (r.amountMm > max.amountMm ? r : max), readings[0])
+      : null;
+    const avg = readings.length > 0
+      ? readings.reduce((sum, r) => sum + r.amountMm, 0) / readings.length
+      : 0;
+
+    const daysRemaining = contract.settledAt
+      ? null
+      : Math.max(0, Math.ceil((new Date(contract.maturityDate).getTime() - Date.now()) / 86400000));
+
+    return { contract, threshold, startDate, endDate, readings, daysAbove, peak, avg, daysRemaining };
   } catch {
     notFound();
   }

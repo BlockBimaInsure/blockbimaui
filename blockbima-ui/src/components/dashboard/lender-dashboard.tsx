@@ -52,7 +52,7 @@ export function LenderDashboard({
           value={totalContracts.toLocaleString()}
           icon={FileText}
           accentColor="oklch(0.60 0.17 170)"
-          trend={contracts.slice(-10).map(() => Math.random() * 10)}
+          trend={contracts.slice(-10).map((c) => c.totalPremium)}
         />
         <StatCard
           title="Beneficiaries"

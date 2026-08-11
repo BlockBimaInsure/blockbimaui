@@ -17,7 +17,7 @@ const PROTECTED_ROUTES = [
 test.describe("Authentication - Unauthenticated Access", () => {
   for (const route of PROTECTED_ROUTES) {
     test(`redirects ${route} to login when not authenticated`, async ({ page }) => {
-      const response = await page.goto(route, { waitUntil: "domcontentloaded" });
+      await page.goto(route, { waitUntil: "domcontentloaded" });
       const url = new URL(page.url());
 
       const isRedirectedToAuth =
@@ -47,7 +47,7 @@ test.describe("Authentication - Root Redirect", () => {
 
 test.describe("Authentication - Login Page", () => {
   test("/login page exists and triggers auth flow", async ({ page }) => {
-    const response = await page.goto("/login", { waitUntil: "domcontentloaded" });
+    await page.goto("/login", { waitUntil: "domcontentloaded" });
     const url = new URL(page.url());
 
     const isAuthFlow =

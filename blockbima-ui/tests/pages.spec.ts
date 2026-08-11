@@ -6,7 +6,7 @@ test.describe("Page - Access Denied (Static Analysis)", () => {
     const content = fs.readFileSync("src/app/access-denied/page.tsx", "utf-8");
 
     expect(content).toContain("Access Denied");
-    expect(content).toContain("You don't have permission");
+    expect(content).toContain("You don&apos;t have permission");
     expect(content).toContain("Back to Dashboard");
     expect(content).toContain('href="/dashboard"');
   });

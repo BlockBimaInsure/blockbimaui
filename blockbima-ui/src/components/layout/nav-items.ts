@@ -1,4 +1,3 @@
-import { LayoutDashboard, Users, FileText, Package, MapPin, Scale, Building2 } from "lucide-react";
 import type { UserRole } from "@/lib/auth";
 import { canAccess } from "@/lib/auth";
 
