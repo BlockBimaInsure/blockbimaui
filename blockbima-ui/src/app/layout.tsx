@@ -19,6 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "BlockBima",
   description: "BlockBima - Blockchain Insurance Platform",
+  applicationName: "BlockBima",
 };
 
 export default function RootLayout({
