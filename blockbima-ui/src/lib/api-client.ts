@@ -96,27 +96,39 @@ async function request<T>(path: string, params?: Record<string, string | number 
   return response.json();
 }
 
+async function safeList<T>(
+  fetchList: () => Promise<PaginatedResponse<T>>
+): Promise<PaginatedResponse<T>> {
+  try {
+    return await fetchList();
+  } catch {
+    return { data: [], total: 0 };
+  }
+}
+
 export class BlockBimaAPI {
   async listBeneficiaries(
     orgId: string,
     pagination?: PaginationParams
   ): Promise<PaginatedResponse<Beneficiary>> {
-    const params = {
-      organizationId: orgId,
-      pageSize: pagination?.pageSize,
-      pageToken: pagination?.pageToken,
-    };
-    const response = await request<{
-      beneficiaries: Beneficiary[];
-      total: number;
-      nextPageToken?: string;
-    }>("/beneficiary-management/v1/beneficiaries", params);
+    return safeList(async () => {
+      const params = {
+        organizationId: orgId,
+        pageSize: pagination?.pageSize,
+        pageToken: pagination?.pageToken,
+      };
+      const response = await request<{
+        beneficiaries: Beneficiary[];
+        total: number;
+        nextPageToken?: string;
+      }>("/beneficiary-management/v1/beneficiaries", params);
 
-    return {
-      data: response.beneficiaries,
-      total: response.total,
-      nextPageToken: response.nextPageToken,
-    };
+      return {
+        data: response.beneficiaries,
+        total: response.total,
+        nextPageToken: response.nextPageToken,
+      };
+    });
   }
 
   async getBeneficiary(id: string): Promise<Beneficiary> {
@@ -131,25 +143,27 @@ export class BlockBimaAPI {
     filters?: { productId?: string; regionId?: string; status?: string },
     pagination?: PaginationParams
   ): Promise<PaginatedResponse<Contract>> {
-    const params = {
-      organizationId: orgId,
-      productId: filters?.productId,
-      regionId: filters?.regionId,
-      status: filters?.status,
-      pageSize: pagination?.pageSize,
-      pageToken: pagination?.pageToken,
-    };
-    const response = await request<{
-      contracts: Contract[];
-      total: number;
-      nextPageToken?: string;
-    }>("/contract-management/v1/contracts", params);
+    return safeList(async () => {
+      const params = {
+        organizationId: orgId,
+        productId: filters?.productId,
+        regionId: filters?.regionId,
+        status: filters?.status,
+        pageSize: pagination?.pageSize,
+        pageToken: pagination?.pageToken,
+      };
+      const response = await request<{
+        contracts: Contract[];
+        total: number;
+        nextPageToken?: string;
+      }>("/contract-management/v1/contracts", params);
 
-    return {
-      data: response.contracts,
-      total: response.total,
-      nextPageToken: response.nextPageToken,
-    };
+      return {
+        data: response.contracts,
+        total: response.total,
+        nextPageToken: response.nextPageToken,
+      };
+    });
   }
 
   async getContract(id: string): Promise<Contract> {
@@ -160,39 +174,43 @@ export class BlockBimaAPI {
   }
 
   async listProducts(pagination?: PaginationParams): Promise<PaginatedResponse<InsuranceProduct>> {
-    const params = {
-      pageSize: pagination?.pageSize,
-      pageToken: pagination?.pageToken,
-    };
-    const response = await request<{
-      insuranceProducts: InsuranceProduct[];
-      total: number;
-      nextPageToken?: string;
-    }>("/product-management/v1/insurance-products", params);
+    return safeList(async () => {
+      const params = {
+        pageSize: pagination?.pageSize,
+        pageToken: pagination?.pageToken,
+      };
+      const response = await request<{
+        insuranceProducts: InsuranceProduct[];
+        total: number;
+        nextPageToken?: string;
+      }>("/product-management/v1/insurance-products", params);
 
-    return {
-      data: response.insuranceProducts,
-      total: response.total,
-      nextPageToken: response.nextPageToken,
-    };
+      return {
+        data: response.insuranceProducts,
+        total: response.total,
+        nextPageToken: response.nextPageToken,
+      };
+    });
   }
 
   async listRegions(pagination?: PaginationParams): Promise<PaginatedResponse<Region>> {
-    const params = {
-      pageSize: pagination?.pageSize,
-      pageToken: pagination?.pageToken,
-    };
-    const response = await request<{
-      regions: Region[];
-      total: number;
-      nextPageToken?: string;
-    }>("/region-management/v1/regions", params);
+    return safeList(async () => {
+      const params = {
+        pageSize: pagination?.pageSize,
+        pageToken: pagination?.pageToken,
+      };
+      const response = await request<{
+        regions: Region[];
+        total: number;
+        nextPageToken?: string;
+      }>("/region-management/v1/regions", params);
 
-    return {
-      data: response.regions,
-      total: response.total,
-      nextPageToken: response.nextPageToken,
-    };
+      return {
+        data: response.regions,
+        total: response.total,
+        nextPageToken: response.nextPageToken,
+      };
+    });
   }
 }
 
